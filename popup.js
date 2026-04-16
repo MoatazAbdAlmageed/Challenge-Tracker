@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const shareProgressBtn = document.getElementById('share-progress');
   const resetChallengeBtn = document.getElementById('reset-challenge');
   const deleteChallengeBtn = document.getElementById('delete-challenge');
+  const exportDataBtn = document.getElementById('export-data');
+  const importDataBtn = document.getElementById('import-data');
+  const importInput = document.getElementById('import-input');
   const toast = document.getElementById('toast');
 
   let challenges = [];
@@ -320,6 +323,66 @@ document.addEventListener('DOMContentLoaded', () => {
       saveChallenges();
       switchView('list');
     }
+  });
+
+  // Export/Import Logic
+  exportDataBtn.addEventListener('click', () => {
+    if (challenges.length === 0) {
+      showToast('No data to export!');
+      return;
+    }
+
+    const dataStr = JSON.stringify(challenges, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `challenge-tracker-backup-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    
+    URL.revokeObjectURL(url);
+    showToast('Challenges exported!');
+  });
+
+  importDataBtn.addEventListener('click', () => {
+    importInput.click();
+  });
+
+  importInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const imported = JSON.parse(event.target.result);
+        
+        // Basic validation
+        if (!Array.isArray(imported)) throw new Error('Invalid format');
+        
+        if (confirm(`This will append ${imported.length} challenges to your list. Continue?`)) {
+          challenges = [...challenges, ...imported];
+          // Simple deduplication by ID just in case
+          const seen = new Set();
+          challenges = challenges.filter(c => {
+            const duplicate = seen.has(c.id);
+            seen.add(c.id);
+            return !duplicate;
+          });
+          
+          await saveChallenges();
+          renderList();
+          showToast('Data imported successfully!');
+        }
+      } catch (err) {
+        showToast('Error: Invalid JSON file');
+        console.error(err);
+      }
+      // Reset input
+      importInput.value = '';
+    };
+    reader.readAsText(file);
   });
 
   function showToast(message) {

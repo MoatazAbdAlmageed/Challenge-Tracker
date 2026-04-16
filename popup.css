@@ -29,6 +29,28 @@ body {
   justify-content: center;
 }
 
+.footer-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border-color);
+}
+
+.text-btn {
+  background: none;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.text-btn:hover {
+  color: var(--primary);
+}
+
 .container {
   width: 100%;
   max-width: 600px;
