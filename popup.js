@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const importDataBtn = document.getElementById('import-data');
   const importInput = document.getElementById('import-input');
   const toast = document.getElementById('toast');
+  const presetBtns = document.querySelectorAll('.preset-btn');
 
   let challenges = [];
   let currentChallengeId = null;
@@ -39,6 +40,44 @@ document.addEventListener('DOMContentLoaded', () => {
   // Navigation
   addBtn.addEventListener('click', () => {
     switchView('create');
+    // Set default start date to today
+    if (!startDateInput.value) {
+      startDateInput.value = new Date().toISOString().split('T')[0];
+    }
+  });
+
+  presetBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active class from all
+      presetBtns.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      let start = new Date(startDateInput.value);
+      if (isNaN(start.getTime())) {
+        start = new Date();
+        startDateInput.value = start.toISOString().split('T')[0];
+      }
+
+      const end = new Date(start);
+      if (btn.dataset.days) {
+        end.setDate(end.getDate() + parseInt(btn.dataset.days) - 1);
+      } else if (btn.dataset.months) {
+        end.setMonth(end.getMonth() + parseInt(btn.dataset.months));
+        end.setDate(end.getDate() - 1);
+      } else if (btn.dataset.years) {
+        end.setFullYear(end.getFullYear() + parseInt(btn.dataset.years));
+        end.setDate(end.getDate() - 1);
+      }
+
+      endDateInput.value = end.toISOString().split('T')[0];
+    });
+  });
+
+  startDateInput.addEventListener('change', () => {
+    const activePreset = document.querySelector('.preset-btn.active');
+    if (activePreset) {
+      activePreset.click();
+    }
   });
 
   cancelCreateBtn.addEventListener('click', () => {
@@ -133,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     categoryInput.value = '';
     startDateInput.value = '';
     endDateInput.value = '';
+    presetBtns.forEach(p => p.classList.remove('active'));
   }
 
   // Render List
