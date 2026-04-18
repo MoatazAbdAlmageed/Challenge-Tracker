@@ -1,112 +1,217 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Challenge Tracker</title>
-  <link rel="stylesheet" href="popup.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>Challenge Tracker</h1>
-      <button id="add-btn" title="Add New Challenge">+</button>
-    </header>
-
-    <main id="app-content">
-      <!-- Challenge List View -->
-      <div id="list-view" class="view">
-        <div id="challenges-container">
-          <div class="empty-state">
-            <p>No challenges yet. Start by creating one!</p>
-          </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Challenge Tracker</title>
+    <link rel="stylesheet" href="popup.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1 id="app-title">Challenge Tracker</h1>
+        <div class="header-controls">
+          <button id="today-tasks-btn" title="Today's Tasks">
+            <i data-lucide="calendar"></i>
+          </button>
+          <button id="view-toggle" title="Toggle List/Grid View">
+            <i data-lucide="layout-grid"></i>
+          </button>
+          <button id="theme-toggle" title="Toggle Dark/Light Mode">
+            <i data-lucide="moon"></i>
+          </button>
         </div>
-        <div class="footer-actions">
-          <button id="export-data" class="text-btn">↑ Export Data</button>
-          <button id="import-data" class="text-btn">↓ Import Data</button>
-          <input type="file" id="import-input" accept=".json" class="hidden">
-        </div>
-      </div>
+      </header>
 
-      <!-- Create Challenge View -->
-      <div id="create-view" class="view hidden">
-        <div class="card">
-          <h2>New Challenge</h2>
-          <div class="form-group">
-            <label for="title-input">Challenge Name</label>
-            <input type="text" id="title-input" placeholder="e.g., 30 Days of Code">
+      <main id="app-content">
+        <!-- Today's Tasks View -->
+        <div id="today-view" class="view hidden">
+          <div class="detail-header">
+            <button id="back-from-today" class="icon-btn">←</button>
+            <h2>Daily Tasks</h2>
           </div>
-          <div class="form-group">
-            <label for="category-input">Category</label>
-            <input type="text" id="category-input" list="categories" placeholder="e.g., Fitness, Coding, Health">
-            <datalist id="categories">
-              <option value="Personal">
-              <option value="Work">
-              <option value="Fitness">
-              <option value="Learning">
-              <option value="Health">
-              <option value="Hobbies">
-            </datalist>
-          </div>
-          <div class="date-row">
-            <div class="form-group">
-              <label for="start-date">Start Date</label>
-              <input type="date" id="start-date">
-            </div>
-            <div class="form-group">
-              <label for="end-date">End Date</label>
-              <input type="date" id="end-date">
+          <div class="card">
+            <div id="today-tasks-container" class="daily-tasks-list">
+              <!-- Tasks will be injected here -->
             </div>
           </div>
-          <div class="duration-presets">
-            <button type="button" class="preset-btn" data-days="7">1 Week</button>
-            <button type="button" class="preset-btn" data-days="14">2 Weeks</button>
-            <button type="button" class="preset-btn" data-months="1">1 Month</button>
-            <button type="button" class="preset-btn" data-years="1">1 Year</button>
+        </div>
+        <!-- Challenge List View -->
+        <div id="list-view" class="view">
+          <div class="filter-bar-wrapper">
+            <div id="filter-bar" class="filter-bar">
+              <!-- Filter chips will be injected here -->
+            </div>
           </div>
-          <div class="actions">
-            <button id="cancel-create" class="secondary">Cancel</button>
-            <button id="save-challenge" class="primary">Save Challenge</button>
+          <div id="challenges-container">
+            <div class="empty-state">
+              <p>No challenges yet. Start by creating one!</p>
+            </div>
+          </div>
+          <div class="footer-actions">
+            <button id="manage-categories-btn" class="text-btn">
+              📁 Manage Categories
+            </button>
+            <button id="export-data" class="text-btn">↑ Export Data</button>
+            <button id="import-data" class="text-btn">↓ Import Data</button>
+            <input
+              type="file"
+              id="import-input"
+              accept=".json"
+              class="hidden"
+            />
           </div>
         </div>
+
+        <!-- Categories Management View -->
+        <div id="categories-view" class="view hidden">
+          <div class="detail-header">
+            <button id="back-from-categories" class="icon-btn">
+              <i data-lucide="arrow-left"></i>
+            </button>
+            <h2>Manage Categories</h2>
+          </div>
+          <div class="card">
+            <div class="form-group">
+              <label for="new-category-input">Add New Category</label>
+              <div class="input-with-button">
+                <input
+                  type="text"
+                  id="new-category-input"
+                  placeholder="e.g., Meditation"
+                />
+                <button id="add-category-btn" class="primary">+</button>
+              </div>
+            </div>
+            <div id="categories-list" class="tag-container">
+              <!-- Categories will be injected here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Create Challenge View -->
+        <div id="create-view" class="view hidden">
+          <div class="card">
+            <h2 id="form-title">New Challenge</h2>
+            <div class="form-group">
+              <label for="title-input">Challenge Name</label>
+              <input
+                type="text"
+                id="title-input"
+                placeholder="e.g., 30 Days of Code"
+              />
+            </div>
+            <div class="form-group">
+              <label for="category-select">Category</label>
+              <select id="category-select" class="styled-select">
+                <!-- Options populated via JS -->
+              </select>
+            </div>
+            <div class="date-row">
+              <div class="form-group">
+                <label for="start-date">Start Date</label>
+                <input type="date" id="start-date" />
+              </div>
+              <div class="form-group">
+                <label for="end-date">End Date</label>
+                <input type="date" id="end-date" />
+              </div>
+            </div>
+            <div class="duration-presets">
+              <button type="button" class="preset-btn" data-days="7">
+                1 Week
+              </button>
+              <button type="button" class="preset-btn" data-days="14">
+                2 Weeks
+              </button>
+              <button type="button" class="preset-btn" data-months="1">
+                1 Month
+              </button>
+              <button type="button" class="preset-btn" data-years="1">
+                1 Year
+              </button>
+            </div>
+            <div class="actions">
+              <button id="cancel-create" class="secondary">Cancel</button>
+              <button id="save-challenge" class="primary">
+                Save Challenge
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detail View -->
+        <div id="detail-view" class="view hidden">
+          <div class="detail-header">
+            <button id="back-to-list" class="icon-btn">
+              <i data-lucide="arrow-left"></i>
+            </button>
+            <div>
+              <h2 id="current-title" style="margin-bottom: 2px">
+                Challenge Title
+              </h2>
+              <span id="current-category" class="category-badge">Category</span>
+            </div>
+          </div>
+
+          <div class="stats-bar">
+            <div class="circular-progress">
+              <svg viewBox="0 0 100 100">
+                <circle class="circular-bg" cx="50" cy="50" r="45"></circle>
+                <circle
+                  id="circular-fill"
+                  class="circular-fill"
+                  cx="50"
+                  cy="50"
+                  r="45"
+                ></circle>
+              </svg>
+              <div id="percentage-text" class="circular-text">0%</div>
+            </div>
+            <span id="progress-text">0/0 Completed</span>
+          </div>
+
+          <div class="detail-actions">
+            <button id="edit-challenge" class="secondary">
+              Edit Challenge
+            </button>
+            <button id="share-progress" class="primary">Share Progress</button>
+            <button id="copy-summary" class="secondary">Copy Summary</button>
+            <button id="reset-challenge" class="danger">Reset</button>
+            <button id="delete-challenge" class="danger-outline">Delete</button>
+          </div>
+
+          <div id="table-container">
+            <!-- Table will be injected here -->
+          </div>
+        </div>
+      </main>
+
+      <div id="toast" class="toast hidden">Copied to clipboard!</div>
+
+      <div id="context-menu" class="context-menu hidden">
+        <button id="ctx-edit" class="ctx-item">
+          <i data-lucide="edit-2"></i> Edit
+        </button>
+        <button id="ctx-copy" class="ctx-item">
+          <i data-lucide="copy"></i> Copy Summary
+        </button>
+        <button id="ctx-delete" class="ctx-item danger">
+          <i data-lucide="trash-2"></i> Delete
+        </button>
       </div>
 
-      <!-- Detail View -->
-      <div id="detail-view" class="view hidden">
-        <div class="detail-header">
-          <button id="back-to-list" class="icon-btn">←</button>
-          <div>
-            <h2 id="current-title" style="margin-bottom: 2px;">Challenge Title</h2>
-            <span id="current-category" class="category-badge">Category</span>
-          </div>
-        </div>
-        
-        <div class="stats-bar">
-          <div class="progress-container">
-            <div id="progress-bar" style="width: 0%;"></div>
-          </div>
-          <span id="progress-text">0/0 Completed</span>
-        </div>
+      <button id="fab-add" class="fab" title="Add New Challenge">
+        <i data-lucide="plus"></i>
+      </button>
+    </div>
 
-        <div id="table-container">
-          <!-- Table will be injected here -->
-        </div>
-
-        <div class="detail-actions">
-          <button id="share-progress" class="primary">Share Progress</button>
-          <button id="copy-summary" class="secondary">Copy Summary</button>
-          <button id="reset-challenge" class="danger">Reset</button>
-          <button id="delete-challenge" class="danger-outline">Delete</button>
-        </div>
-      </div>
-    </main>
-
-    <div id="toast" class="toast hidden">Copied to clipboard!</div>
-  </div>
-
-  <script src="popup.js"></script>
-</body>
+    <script src="popup.js"></script>
+  </body>
 </html>
