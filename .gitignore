@@ -1,0 +1,12 @@
+# Chrome Extension
+Challenge Tracker.zip
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Web
+node_modules/
+.env
+dist/
+build/
