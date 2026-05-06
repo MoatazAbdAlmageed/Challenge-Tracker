@@ -65,8 +65,8 @@ Whether it's a "30-day coding challenge," "75 Hard," or just drinking more water
 | :--- | :--- |
 | **Privacy Policy URL** | `https://(your-username).github.io/(repo-name)/privacy-policy.html` |
 | **Data Usage** | "I am not collecting or using any user data." |
-| **Single Purpose** | The extension's single purpose is to provide a challenge tracking dashboard on the New Tab page. |
-| **Permissions Justification** | `storage`: Required to save user challenge data and progress locally in the browser. |
+| **Single Purpose** | The extension's single purpose is to provide a personal challenge tracking dashboard that replaces the default New Tab page, helping users visualize and complete daily goals. |
+| **Permissions Justification** | `storage`: This permission is used exclusively to store user-defined challenges and their daily completion status locally within the user's browser. No data is synchronized or sent to external servers. |
 
 ---
 
