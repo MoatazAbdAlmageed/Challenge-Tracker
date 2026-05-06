@@ -72,12 +72,13 @@ Whether it's a "30-day coding challenge," "75 Hard," or just drinking more water
 
 ## 🌐 GitHub Pages Setup
 
-Since your website is in the `/website` directory, I have added a GitHub Action to handle the deployment:
+To host your landing page and privacy policy:
 
 1. Go to your repository on GitHub.
 2. Click **Settings** > **Pages**.
-3. Under **Build and deployment** > **Source**, select **GitHub Actions**.
-4. Once you push your code, the "Deploy static content to Pages" action will run automatically and host your site.
+3. Under **Build and deployment** > **Source**, keep it as **"Deploy from a branch"**.
+4. Select the **main** branch and **/(root)** folder.
+5. Click **Save**. Your site will be live at the URL shown.
 
 ---
 
@@ -89,7 +90,7 @@ The extension functions as a New Tab override. Upon installation, opening a new 
 
 ## 🚀 Ready to Publish?
 
-1. **Zip the extension folder**: Select the contents of the `Challenge Tracker` directory (excluding the `website`, `.github`, and `publish.md` files) and compress them into a `.zip` file.
+1. **Zip the extension folder**: Select the contents of the `Challenge Tracker` directory (excluding the root `index.html`, `style.css`, etc.) and compress them into a `.zip` file.
 2. **Developer Dashboard**: Go to [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
 3. **Upload**: Click "New Item" and upload your `.zip` file.
 4. **Complete Listing**: Fill in the details from this document.

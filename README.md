@@ -5,7 +5,9 @@ A comprehensive toolset for the **Challenge Tracker** Chrome Extension, includin
 ## 📁 Project Structure
 
 - **`/Challenge Tracker`**: The core Chrome Extension source code.
-- **`/website`**: Modern landing page and Privacy Policy (required for Web Store listing).
+- **`index.html`**: Premium landing page (Root).
+- **`privacy-policy.html`**: Extension Privacy Policy (Root).
+- **`style.css`**: Design system styles (Root).
 - **`publish.md`**: Complete guide and metadata for Chrome Web Store submission.
 
 ---
@@ -31,7 +33,7 @@ The extension helps users track daily habits and challenges directly from their 
 
 ## 🌐 Landing Page & Website
 
-A premium website designed to showcase the extension and provide legal documentation. It is automatically deployed to GitHub Pages from the `/website` directory via GitHub Actions.
+A premium website designed to showcase the extension and provide legal documentation. It is hosted directly from the root of this repository.
 
 ### Key Components
 
